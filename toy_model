@@ -1,0 +1,72 @@
+smg
+
+// top-level system
+system "S1" || "S2" endsystem
+global h : [0..100] init 50;
+
+// subsystem S1
+system "S1" G1 endsystem
+
+module G1
+
+	s : [0..5] init 1;
+
+	[speedUp!]  s=0 -> 0.5:(s'=1)&(h'=h+1) + 0.5:(s'=2)&(h'=h+2);
+	[speedUp!]  s=1 -> 0.5:(s'=2)&(h'=h+3) + 0.5:(s'=3)&(h'=h+4);
+	[speedUp!]  s=2 -> 0.5:(s'=3)&(h'=h+5) + 0.5:(s'=4)&(h'=h+6);
+	[speedUp!]  s=3 -> 0.5:(s'=4)&(h'=h+7) + 0.5:(s'=5)&(h'=h+8);
+	[speedUp!]  s=4 -> (s'=5)&(h'=h+9);
+
+	[speedDown!]  s=1 -> (s'=0)&(h'=h+1);
+	[speedDown!]  s=2 -> 0.5:(s'=1)&(h'=h+3) + 0.5:(s'=0)&(h'=h+2);
+	[speedDown!]  s=3 -> 0.5:(s'=2)&(h'=h+5) + 0.5:(s'=1)&(h'=h+4);
+	[speedDown!]  s=4 -> 0.5:(s'=3)&(h'=h+7) + 0.5:(s'=2)&(h'=h+6);
+	[speedDown!]  s=5 -> 0.5:(s'=4)&(h'=h+9) + 0.5:(s'=3)&(h'=h+8);
+
+	[] s=0 -> (s'=0)&(h'=h);
+	[] s=1 -> (s'=1)&(h'=h+2);
+	[] s=2 -> (s'=2)&(h'=h+4);
+	[] s=3 -> (s'=3)&(h'=h+6);
+	[] s=4 -> (s'=4)&(h'=h+8);
+	[] s=5 -> (s'=5)&(h'=h+10);
+
+endmodule
+
+// subsystem S2
+system "S2" G2 endsystem
+
+module G2
+
+	t : [0..5] init 1;
+
+	[Up?]  t=0 -> 0.5:(t'=1)&(h'=h-1) + 0.5:(t'=2)&(h'=h-2);
+	[Up?]  t=1 -> 0.5:(t'=2)&(h'=h-3) + 0.5:(t'=3)&(h'=h-4);
+	[Up?]  t=2 -> 0.5:(t'=3)&(h'=h-5) + 0.5:(t'=4)&(h'=h-6);
+	[Up?]  t=3 -> 0.5:(t'=4)&(h'=h-7) + 0.5:(t'=5)&(h'=h-8);
+	[Up?]  t=4 -> (t'=5)&(h'=h-9);
+
+	[Down?]  t=1 -> (t'=0)&(h'=h-1);
+	[Down?]  t=2 -> 0.5:(t'=1)&(h'=h-3) + 0.5:(t'=0)&(h'=h-2);
+	[Down?]  t=3 -> 0.5:(t'=2)&(h'=h-5) + 0.5:(t'=1)&(h'=h-4);
+	[Down?]  t=4 -> 0.5:(t'=3)&(h'=h-7) + 0.5:(t'=2)&(h'=h-6);
+	[Down?]  t=5 -> 0.5:(t'=4)&(h'=h-9) + 0.5:(t'=3)&(h'=h-8);
+
+	[] t=0 -> (t'=0)&(h'=h);
+	[] t=1 -> (t'=1)&(h'=h-2);
+	[] t=2 -> (t'=2)&(h'=h-4);
+	[] t=3 -> (t'=3)&(h'=h-6);
+	[] t=4 -> (t'=4)&(h'=h-8);
+	[] t=5 -> (t'=5)&(h'=h-10);
+
+endmodule
+
+// rewards
+//rewards "r1"
+//	[speedUp] true : 1;
+//endrewards
+
+
+// Constants for specifications of ACC.
+const double w_min = 5;
+const double s_desire = 4;
+const double h_max = 90;
