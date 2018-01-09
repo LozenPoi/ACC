@@ -2,8 +2,11 @@ We would like to thank all the reviewers for theirs helpful comments.
 Here we would like to clarify some issues addressed in the reviews upon our submission in round 2.
 
 (1) The statement over "the reason SSD is favored over Faster-RCNN" is based on our analysis on the structural design of the inference network, where Faster-RCNN must crop subregions from the feature map for object detection. The quantitative impact of SSD for better scene understanding over object detection is described in the paper "SSD: Single Shot MultiBox Detector".
+
 (2) The statement "our replication of Stuffnet" means that we use the existing implementation by the original authors and train it on Cityscapes.
+
 (3) The "reduced PSPNet" means ...
+
 (4) There are two reasons why we don't compare with Blitznet. First, the pulication date of Blitznet is too late, considering our period of work and the first round submission date. It might also not make sense to readers if our experiment/comparison is not based on current well-known and highly-achieved methods. Second, in this paper, we want to emphasize that our proposed multi-task method can have very close and even better performance on each task, compared to each corresponding single-task approach.
 
 Following changes would be revealed in camera-ready revision:
